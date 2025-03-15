@@ -1,5 +1,5 @@
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import ReplyKeyboardMarkup
+from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
 import os
 
@@ -9,13 +9,18 @@ dp = Dispatcher(bot=bot)
 
 
 main = ReplyKeyboardMarkup(resize_keyboard=True)
-main.add('Каталог').add('Специальные предложения').add('Информация о доставке').add("Контакты").add('Личный кабинет').add('Полезные советы')
+main.add('Каталог').add('Корзина').add('Специальные предложения').add('Информация о доставке').add("Контакты").add('Личный кабинет').add('Полезные советы')
 
 main_admin = ReplyKeyboardMarkup(resize_keyboard=True)
 main_admin.add('Каталог').add('Специальные предложения').add('Информация о доставке').add("Контакты").add('Личный кабинет').add('Полезные советы').add('Админ-панель')
 
 admin_panel = ReplyKeyboardMarkup(resize_keyboard=True)
 admin_panel.add('Добавить товар').add('Удалить товар')
+
+catalog_list = InlineKeyboardMarkup(row_width=2)
+catalog_list.add(InlineKeyboardButton(text='Футболки', url='https://youtube.com/@sudoteach'),
+                InlineKeyboardButton(text='Шорты', url='https://youtube.com/@sudoteach'),
+                InlineKeyboardButton(text='Кроссовки', url='https://youtube.com/@sudoteach'))
 
 
 
@@ -30,6 +35,12 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(text='Контакты')
 async def contacts(message: types.Message):
     await message.answer(f'Для заказа пишите: @Brick_runner')
+
+
+
+@dp.message_handler(text='Каталог')
+async def catalog(message: types.Message):
+    await message.answer(f'Каталог пуст!', reply_markup=catalog_list)
 
 
 
